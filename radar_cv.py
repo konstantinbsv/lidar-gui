@@ -36,13 +36,13 @@ draw_anterior_line = DRAW_ANTERIOR_LINE
 draw_posterior_line = DRAW_POSTERIOR_LINE
 com_port = 'COM10'  # default com port
 baud_rate = 115200  # default baud rate
-min_rand = 150      # min for random number generator (used only if generating debug data)
-max_rand = 200      # max for random number generator
+min_rand = max_range/2      # min for random number generator (used only if generating debug data)
+max_rand = min_rand*1.25    # max for random number generator
 
 # get options from command line
 try:
-    opts, args = getopt.getopt(sys.argv[1:], 'hvrfb:', ['com=', 'baud=', 'help', 'range=',
-                                                      'debug', 'min_rand=', 'max_rand='])
+    opts, args = getopt.getopt(sys.argv[1:], 'hvr:fb', ['com=', 'baud=', 'help', 'range=',
+                                                        'debug', 'min_rand=', 'max_rand='])
 except getopt.GetoptError as e:
     print(e)
     opts = [('-h', '')]
@@ -72,7 +72,7 @@ for opt, arg in opts:
     elif opt == '-f':
         draw_anterior_line = False
     elif opt == '-b':
-        draw_posterior_line_line = False
+        draw_posterior_line = False
     elif opt == '--com':
         com_port = arg
     elif opt == '--baud':
@@ -230,7 +230,7 @@ while True:
         blips[j][1] = tuple(BLIP_FADE_FACTOR * c for c in color)
 
     # show frame
-    cv2.imshow("Sonar Display", frame)
+    cv2.imshow("LIDAR Display", frame)
     if cv2.waitKey(wait) in (ord('q'), 0x1b):
         break
 
